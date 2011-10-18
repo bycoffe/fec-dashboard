@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <title>Electronic filings dashboard</title>
+        <link rel="stylesheet" href="fec_dashboard.css" type="text/css" media="screen" charset="utf-8">
+    </head>
+    <body>
+        <a href="http://developer.nytimes.com"><img class="nytlogo" src="http://graphics8.nytimes.com/packages/images/developer/logos/poweredby_nytimes_150a.png"/></a>
+        <h1>Electronic Filings Dashboard</h1>
+        <h2>Powered by the <a href="http://developer.nytimes.com/docs/campaign_finance_api">New York Times Campaign Finance API</a> 
+        </h2>
+        <div id="keyholder">
+            <form method="GET" action="./">
+                <label for="apikey">NYT Congress API key:</label>
+                <input type="text" name="apikey" id="apikey" size="55"/>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div id="notifications">
+            <input type="checkbox" name="notify" value="notify" id="notify"/>
+            <label for="notify">Show desktop notifications</label>
+            <span id="updateNow">update now</span>
+        </div>
+        <table id="filings">
+            <thead>
+                <tr>
+                    <th>Committee</th>
+                    <th>Form</th>
+                    <th>Title</th>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <script charset="utf-8" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script charset="utf-8" type="text/javascript" src="fec_dashboard.js"></script>
+    </body>
+</html>
