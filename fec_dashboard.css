@@ -1,0 +1,15 @@
+* { font-family: Helvetica, Arial, sans-serif; }
+body { width: 80%; margin-left: auto; margin-right: auto; }
+table#filings  { border-collapse: collapse; width: 100%; font-size: .825em; margin-top: 80px; }
+table#filings tr td { border: 1px solid white; padding: 8px 6px; color: navy; }
+table#filings tr.odd { background-color: #efefef; }
+table#filings tr.even { background-color: #ffffff; }
+table#filings tr.topRow { border-top: 1px solid navy; }
+table#filings tr td.time { background-color: #fff; color: gray; }
+table#filings thead tr th { background-color: gray; color: #efefef; text-align: left; padding: 4px; padding-left: 10px; }
+a { color: navy; }
+h1, h2 { font-weight: normal; text-transform: uppercase; text-align: center; margin-bottom: 10px; }
+h2 { font-size: 1.2em; margin-bottom: 30px; }
+div#notifications { float: right; }
+div#keyholder { float: left; }
+span#updateNow { text-decoration: underline; color: navy; margin-left: 50px; cursor: pointer; }
