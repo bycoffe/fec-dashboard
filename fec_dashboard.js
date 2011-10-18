@@ -17,6 +17,11 @@ $(document).ready(function () {
     $("#updateNow").bind('click', function () {
         getFilings();
     });
+
+    $("#notify").bind('click', function () {
+        requestPermission(function(){});
+    });
+
 });
 
 var shown = []
