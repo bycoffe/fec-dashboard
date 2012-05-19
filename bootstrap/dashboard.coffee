@@ -77,7 +77,10 @@ class FilingView extends Backbone.View
 
   render: ->
     $(@el).html @template(@model.toJSON())
-    $("#filings tbody").append @el
+    if @model.get('initialLoad')
+      $("#filings tbody").append @el
+    else
+      $("#filings tbody").prepend @el
 
 
 class Settings extends Backbone.Model

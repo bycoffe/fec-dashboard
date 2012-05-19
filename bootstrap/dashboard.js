@@ -122,7 +122,11 @@
     };
     FilingView.prototype.render = function() {
       $(this.el).html(this.template(this.model.toJSON()));
-      return $("#filings tbody").append(this.el);
+      if (this.model.get('initialLoad')) {
+        return $("#filings tbody").append(this.el);
+      } else {
+        return $("#filings tbody").prepend(this.el);
+      }
     };
     return FilingView;
   })();
