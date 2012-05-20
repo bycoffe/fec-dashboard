@@ -82,6 +82,7 @@ class FilingView extends Backbone.View
 
   initialize: ->
     @template = _.template $("#filing-row-template").html()
+    @mobileTemplate = _.template $("#mobile-filing-row-template").html()
     @render()
 
   render: ->
@@ -90,6 +91,13 @@ class FilingView extends Backbone.View
       $("#filings tbody").append @el
     else
       $("#filings tbody").prepend @el
+
+    mobileEl = @$el.clone()
+    $(mobileEl).html @mobileTemplate(@model.toJSON())
+    if @model.get('initialLoad')
+      $("#mobile-filings tbody").append mobileEl
+    else
+      $("#mobile-filings tbody").prepend mobileEl
 
 
 class Settings extends Backbone.Model

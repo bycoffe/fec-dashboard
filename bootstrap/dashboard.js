@@ -129,14 +129,23 @@
     FilingView.prototype.tagName = 'tr';
     FilingView.prototype.initialize = function() {
       this.template = _.template($("#filing-row-template").html());
+      this.mobileTemplate = _.template($("#mobile-filing-row-template").html());
       return this.render();
     };
     FilingView.prototype.render = function() {
+      var mobileEl;
       $(this.el).html(this.template(this.model.toJSON()));
       if (this.model.get('initialLoad')) {
-        return $("#filings tbody").append(this.el);
+        $("#filings tbody").append(this.el);
       } else {
-        return $("#filings tbody").prepend(this.el);
+        $("#filings tbody").prepend(this.el);
+      }
+      mobileEl = this.$el.clone();
+      $(mobileEl).html(this.mobileTemplate(this.model.toJSON()));
+      if (this.model.get('initialLoad')) {
+        return $("#mobile-filings tbody").append(mobileEl);
+      } else {
+        return $("#mobile-filings tbody").prepend(mobileEl);
       }
     };
     return FilingView;
