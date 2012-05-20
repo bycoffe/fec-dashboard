@@ -1,5 +1,7 @@
 filings = null
 appSettings = null
+title = ''
+windowFocused = true
 
 committeeTypes =
   'C': 'Communication Cost'
@@ -49,6 +51,7 @@ class Filings extends Backbone.Collection
 
   getFilings: (initialLoad=false) ->
     return unless appSettings.get('apikey').length > 0
+    newFilings = false
     $.ajax
       dataType: 'jsonp'
       url: 'http://api.nytimes.com/svc/elections/us/v3/finances/2012/filings.json'
@@ -64,6 +67,12 @@ class Filings extends Backbone.Collection
               timestamp: new Date()
               initialLoad: initialLoad
             @add result
+            newFilings = true
+
+    if newFilings
+      unless initialLoad
+        unless windowFocused
+          $("title").html "[*] #{title}"
     setTimeout((=> @getFilings()), 900000)
 
 
@@ -130,6 +139,8 @@ class SaveSettingsView extends Backbone.View
 
 
 $(document).ready ->
+  title = $("title").html()
+
   filings = new Filings()
   appSettings = new Settings()
 
@@ -153,3 +164,12 @@ $(document).ready ->
 
   $("#welcome-enter-api-key").bind 'click', ->
     $("#settings").modal('show')
+
+  $(window).blur ->
+    windowFocused = false
+
+  $(window).focus ->
+    windowFocused = true
+
+  $(window).bind 'focus', ->
+    $("title").html title

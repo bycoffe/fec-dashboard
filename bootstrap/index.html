@@ -7,40 +7,7 @@
     <title>electronic filings dashboard</title>
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-
-    <style type="text/css">
-      .modal {
-        display: none;
-      }
-      .alignRight {
-        text-align: right;
-      }
-      .fixed {
-        top: 0;
-        position: fixed;
-      }
-      #welcome-enter-api-key {
-        color: #0088cc;
-        cursor: pointer;
-      }
-      #welcome-enter-api-key:hover {
-        text-decoration: underline;
-        color: #005580;
-      }
-      #welcome {
-        display: none;
-      }
-      #filing-content {
-        display: none;
-      }
-      .top-button {
-        margin-top: 15px;
-      }
-      .top-button-img {
-        margin-top: 17px;
-        margin-left: 60px;
-      }
-    </style>
+    <link href="dashboard.css" rel="stylesheet">
   </head>
 
   <body>
@@ -81,6 +48,16 @@
       </div>
 
       <div class="row">
+        <div class="span3 offset9 top-button">
+          <a class="btn" data-toggle="modal" href="#settings"><i class="icon-cog"></i> Settings</a>
+          <a class="btn" data-toggle="modal" href="#about"><i class="icon-info-sign"></i> About</a>
+          <a href="http://developer.nytimes.com/docs/campaign_finance_api">
+            <img src="http://graphics8.nytimes.com/packages/images/developer/logos/poweredby_nytimes_65a.png">
+          </a>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="page-header span6">
           <h1>electronic filings dashboard</h1>
           <h1>
@@ -88,13 +65,6 @@
               powered by <a href="http://developer.nytimes.com/docs/campaign_finance_api">the New York Times campaign finance API</a>
             </small>
           </h1>
-        </div>
-        <div class="span3 offset3 top-button">
-          <a class="btn" data-toggle="modal" href="#settings"><i class="icon-cog"></i> Settings</a>
-          <a class="btn" data-toggle="modal" href="#about"><i class="icon-info-sign"></i> About</a>
-          <a href="http://developer.nytimes.com/docs/campaign_finance_api">
-            <img src="http://graphics8.nytimes.com/packages/images/developer/logos/poweredby_nytimes_65a.png">
-          </a>
         </div>
       </div>
 
@@ -111,6 +81,7 @@
       </div>
 
       <div id="filing-content">
+
         <div class="row">
           <div class="span2">
             <button class="btn" type="button" id="update-now"><i class="icon-refresh"></i> Update now</button>
@@ -128,9 +99,9 @@
         <table id="filings" class="table table-striped">
           <thead>
               <tr>
-                  <th class="table-amendment"></th>
                   <th class="table-committee">Committee</th>
                   <th class="table-form">Form</th>
+                  <th class="table-amendment"></th>
                   <th class="table-title">Title</th>
                   <th class="table-from">From</th>
                   <th class="table-to">To</th>
@@ -144,13 +115,13 @@
     </div>
 
     <script type="text/html" id="filing-row-template">
+      <td class="table-committee" rel="tooltip" title="<%= full_committee_type %>"><a href="http://images.nictusa.com/cgi-bin/fecimg/?<%= committee_id %>"><%= committee_name %></a></td>
+      <td><%= form_type %></td>
       <td>
       <% if (is_amendment) { %>
         <i title="This is an amendment" class="icon-pencil"></i>
       <% } %>
       </td>
-      <td class="committee-name" rel="tooltip" title="<%= full_committee_type %>"><a href="http://images.nictusa.com/cgi-bin/fecimg/?<%= committee_id %>"><%= committee_name %></a></td>
-      <td><%= form_type %></td>
       <td><a href="<%= fec_uri %>"><%= report_title %></a></td>
       <td><%= date_coverage_from %></td>
       <td><%= date_coverage_to %></td>

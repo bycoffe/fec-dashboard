@@ -1,5 +1,5 @@
 (function() {
-  var Filing, FilingView, Filings, SaveSettingsView, Settings, appSettings, committeeTypes, filings;
+  var Filing, FilingView, Filings, SaveSettingsView, Settings, appSettings, committeeTypes, filings, title, windowFocused;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -10,6 +10,8 @@
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   filings = null;
   appSettings = null;
+  title = '';
+  windowFocused = true;
   committeeTypes = {
     'C': 'Communication Cost',
     'D': 'Delegate',
@@ -74,12 +76,14 @@
     }
     Filings.prototype.model = Filing;
     Filings.prototype.getFilings = function(initialLoad) {
+      var newFilings;
       if (initialLoad == null) {
         initialLoad = false;
       }
       if (!(appSettings.get('apikey').length > 0)) {
         return;
       }
+      newFilings = false;
       $.ajax({
         dataType: 'jsonp',
         url: 'http://api.nytimes.com/svc/elections/us/v3/finances/2012/filings.json',
@@ -99,11 +103,18 @@
               id: result.fec_uri,
               timestamp: new Date(),
               initialLoad: initialLoad
-            }), this.add(result)) : void 0);
+            }), this.add(result), newFilings = true) : void 0);
           }
           return _results;
         }, this)
       });
+      if (newFilings) {
+        if (!initialLoad) {
+          if (!windowFocused) {
+            $("title").html("[*] " + title);
+          }
+        }
+      }
       return setTimeout((__bind(function() {
         return this.getFilings();
       }, this)), 900000);
@@ -192,6 +203,7 @@
     return SaveSettingsView;
   })();
   $(document).ready(function() {
+    title = $("title").html();
     filings = new Filings();
     appSettings = new Settings();
     filings.getFilings(true);
@@ -213,8 +225,17 @@
     $("#update-now").bind('click', function() {
       return filings.getFilings();
     });
-    return $("#welcome-enter-api-key").bind('click', function() {
+    $("#welcome-enter-api-key").bind('click', function() {
       return $("#settings").modal('show');
+    });
+    $(window).blur(function() {
+      return windowFocused = false;
+    });
+    $(window).focus(function() {
+      return windowFocused = true;
+    });
+    return $(window).bind('focus', function() {
+      return $("title").html(title);
     });
   });
 }).call(this);
