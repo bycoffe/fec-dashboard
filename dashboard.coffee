@@ -38,7 +38,10 @@ class Filing extends Backbone.Model
       @requestPermission(@alert)
 
     icon = 'http://query.nictusa.com/images/fec1.gif'
-    popup = window.webkitNotifications.createNotification icon, @get('committee_name'), "#{@get('report_title')}#{if @get('is_amendment') then ('amendment')}"
+    amendment = ''
+    if @get('is_amendment')
+      amendment = ' [amendment] '
+    popup = window.webkitNotifications.createNotification icon, @get('committee_name'), "#{@get('report_title')}#{amendment}"
     popup.show()
 
   requestPermission: (callback) ->

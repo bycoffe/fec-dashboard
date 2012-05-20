@@ -50,7 +50,7 @@
       }
     };
     Filing.prototype.alert = function() {
-      var icon, popup;
+      var amendment, icon, popup;
       if (!appSettings.get('showNotifications')) {
         return;
       }
@@ -61,7 +61,11 @@
         this.requestPermission(this.alert);
       }
       icon = 'http://query.nictusa.com/images/fec1.gif';
-      popup = window.webkitNotifications.createNotification(icon, this.get('committee_name'), "" + (this.get('report_title')) + (this.get('is_amendment') ? 'amendment' : void 0));
+      amendment = '';
+      if (this.get('is_amendment')) {
+        amendment = ' [amendment] ';
+      }
+      popup = window.webkitNotifications.createNotification(icon, this.get('committee_name'), "" + (this.get('report_title')) + amendment);
       return popup.show();
     };
     Filing.prototype.requestPermission = function(callback) {
