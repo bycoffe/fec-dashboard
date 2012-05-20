@@ -1,41 +1,161 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-        <title>Electronic filings dashboard</title>
-        <link rel="stylesheet" href="fec_dashboard.css" type="text/css" media="screen" charset="utf-8">
-    </head>
-    <body>
-        <a href="http://developer.nytimes.com"><img class="nytlogo" src="http://graphics8.nytimes.com/packages/images/developer/logos/poweredby_nytimes_150a.png"/></a>
-        <h1>Electronic Filings Dashboard</h1>
-        <h2>Powered by the <a href="http://developer.nytimes.com/docs/campaign_finance_api">New York Times Campaign Finance API</a> 
-        </h2>
-        <div id="keyholder">
-            <form method="GET" action="./">
-                <label for="apikey">NYT Congress API key:</label>
-                <input type="text" name="apikey" id="apikey" size="55"/>
-                <input type="submit" value="Submit">
-            </form>
+<html lang="en">
+
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>electronic filings dashboard</title>
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="modal" id="settings">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal">×</a>
+          <h3>settings</h3>
         </div>
-        <div id="notifications">
-            <input type="checkbox" name="notify" value="notify" id="notify"/>
-            <label for="notify">Show desktop notifications</label>
-            <span id="updateNow">update now</span>
+        <div class="modal-body">
+          <p>This application requires an API key from The New York Times. <a href="http://developer.nytimes.com/apps/register" target="_new">Sign up for a key</a>.</p>
+          <form>
+            <label>API key</label>
+            <input id="apikey" name="apikey" type="text" class="input-large span4" placeholder="Enter API key">
+            <label class="checkbox">
+              <input type="checkbox" id="show-notifications">Show desktop notifications
+            </label>
         </div>
-        <table id="filings">
-            <thead>
-                <tr>
-                    <th>Committee</th>
-                    <th>Form</th>
-                    <th>Title</th>
-                    <th>From</th>
-                    <th>To</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
+        <div class="modal-footer">
+          <input type="submit" id="save-settings" class="btn" value="save">
+          </form>
+        </div>
+      </div>
+
+      <div class="modal" id="about">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal">×</a>
+          <h3>about</h3>
+        </div>
+        <div class="modal-body">
+          <p>This dashboard was created to make it easier to track filings as they are reported to the Federal Election Commission.</p>
+          <p>It includes all reports that are filed electronically -- presidential and House candidates, as well as most political action committees. Senate candidates do not file their reports electronically.</p>
+          <p>The data is updated every 15 minutes.</p>
+          <p>Created by <a href="http://github.com/bycoffe">Aaron Bycoffe</a></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span3 offset9 top-button">
+          <a class="btn" data-toggle="modal" href="#settings"><i class="icon-cog"></i> Settings</a>
+          <a class="btn" data-toggle="modal" href="#about"><i class="icon-info-sign"></i> About</a>
+          <a href="http://developer.nytimes.com/docs/campaign_finance_api">
+            <img src="http://graphics8.nytimes.com/packages/images/developer/logos/poweredby_nytimes_65a.png">
+          </a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="page-header span12">
+          <h1>electronic filings dashboard</h1>
+          <h1>
+            <small>
+              powered by <a href="http://developer.nytimes.com/docs/campaign_finance_api">the New York Times campaign finance API</a>
+            </small>
+          </h1>
+        </div>
+      </div>
+
+      <div class="row" id="welcome">
+        <div class="span8 alert alert-info">
+          <p><strong>Welcome.</strong></p>
+          <p>
+             To use the dashboard you'll need an API key from The New York Times. <a href="http://developer.nytimes.com/apps/register" target="_new">Get one here</a>.
+          </p>
+          <p>
+            If you already have an API key, <span id="welcome-enter-api-key">enter it here</span>.
+          </p>
+        </div>
+      </div>
+
+      <div id="filing-content">
+
+        <div class="row">
+          <div class="span2">
+            <button class="btn" type="button" id="update-now"><i class="icon-refresh"></i> Update now</button>
+          </div>
+          <div class="span2 offset8 alignRight">
+            <i class="icon-pencil"></i> Amendment
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="span12">&nbsp;</div>
+        </div>
+
+
+        <table id="filings" class="table table-striped hidden-phone">
+          <thead>
+              <tr>
+                  <th class="table-committee">Committee</th>
+                  <th class="table-form">Form</th>
+                  <th class="table-amendment"></th>
+                  <th class="table-title">Title</th>
+                  <th class="table-from">From</th>
+                  <th class="table-to">To</th>
+              </tr>
+          </thead>
+          <tbody data-spy="scroll">
+          </tbody>
         </table>
-        <script charset="utf-8" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-        <script charset="utf-8" type="text/javascript" src="fec_dashboard.js"></script>
-    </body>
+
+        <table id="mobile-filings" class="table table-striped visible-phone hidden-tablet hidden-desktop">
+          <tbody>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <script type="text/html" id="filing-row-template">
+      <td class="table-committee" rel="tooltip" title="<%= full_committee_type %>"><a href="http://images.nictusa.com/cgi-bin/fecimg/?<%= committee_id %>"><%= committee_name %></a></td>
+      <td><%= form_type %></td>
+      <td>
+      <% if (is_amendment) { %>
+        <i title="This is an amendment" class="icon-pencil"></i>
+      <% } %>
+      </td>
+      <td><a href="<%= fec_uri %>"><%= report_title %></a></td>
+      <td><%= date_coverage_from %></td>
+      <td><%= date_coverage_to %></td>
+    </script>
+
+    <script type="text/html" id="mobile-filing-row-template">
+      <td>
+          <div class="row">
+            <strong>Committee:</strong> <a href="http://images.nictusa.com/cgi-bin/fecimg/?<%= committee_id %>"><%= committee_name %></a>
+          </div>
+          <div class="row">
+            <strong>Form:</strong> <%= form_type %>
+              <% if (is_amendment) { %>
+                  <i title="This is an amendment" class="icon-pencil"></i>
+              <% } %>
+            </div>
+            <div class="row">
+              <strong>Title:</strong> <a href="<%= fec_uri %>"><%= report_title %></a>
+            </div>
+          </div>
+      </td>
+    </script>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/underscore-min.js"></script>
+    <script type="text/javascript" src="assets/js/backbone-min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="dashboard.js"></script>
+
+  </body>
+
 </html>
