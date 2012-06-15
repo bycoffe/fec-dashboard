@@ -44,6 +44,9 @@
         raised: this.get('receipts_total')
       });
       this.set({
+        report_period: this.get('report_period')
+      });
+      this.set({
         view: new FilingView({
           model: this
         })
