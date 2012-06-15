@@ -35,7 +35,8 @@ var getFilings = function () {
         notify = false,
         committee_id,
         now,
-        time;
+        time
+        raised;
 
     if ($("#notify:checked").val() !== undefined) {
         notify = true;
