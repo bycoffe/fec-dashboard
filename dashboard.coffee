@@ -23,7 +23,7 @@ committeeTypes =
 class Filing extends Backbone.Model
 
   initialize: ->
-    @set committee_id: @get('committee').match(/\/(C\d+)/)[1]
+    @set committee_id: @get('fec_committee_id')
     @set full_committee_type: committeeTypes[@get('committee_type')]
     @set view: new FilingView(model: @)
     unless @get('initialLoad')

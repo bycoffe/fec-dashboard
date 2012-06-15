@@ -35,7 +35,7 @@
     }
     Filing.prototype.initialize = function() {
       this.set({
-        committee_id: this.get('committee').match(/\/(C\d+)/)[1]
+        committee_id: this.get('fec_committee_id')
       });
       this.set({
         full_committee_type: committeeTypes[this.get('committee_type')]
