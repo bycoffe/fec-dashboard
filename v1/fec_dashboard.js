@@ -66,7 +66,7 @@ var getFilings = function () {
 
                     from = result['date_coverage_from'] ? result['date_coverage_from'] : '';
                     to = result['date_coverage_to'] ? result['date_coverage_to'] : '';
-                    committee_id = result['committee'].replace(/\/committees\//, '').replace(/\.json/, '');
+                    committee_id = result['fec_committee_id'];
 
                     now = new Date();
                     time = now.getHours() + ':' + now.getMinutes()
