@@ -41,7 +41,7 @@
         full_committee_type: committeeTypes[this.get('committee_type')]
       });
       this.set({
-        raised: fx(this.get('receipts_total').to('USD'))
+        raised: fx(this.get('receipts_total')).to('USD')
       });
       this.set({
         view: new FilingView({
