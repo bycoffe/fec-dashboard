@@ -67,6 +67,7 @@ var getFilings = function () {
                     from = result['date_coverage_from'] ? result['date_coverage_from'] : '';
                     to = result['date_coverage_to'] ? result['date_coverage_to'] : '';
                     committee_id = result['fec_committee_id'];
+                    raised = result['receipts_total'];
 
                     now = new Date();
                     time = now.getHours() + ':' + now.getMinutes()
@@ -87,6 +88,8 @@ var getFilings = function () {
                         + from
                         + '</td><td>'
                         + to
+                        + '</td><td>'
+                        + raised
                         + '</td>'
                         + '<td class="time">'
                         + time
