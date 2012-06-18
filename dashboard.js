@@ -41,10 +41,7 @@
         full_committee_type: committeeTypes[this.get('committee_type')]
       });
       this.set({
-        raised: this.get('receipts_total')
-      });
-      this.set({
-        report_period: this.get('report_period')
+        raised: this.format_amount(this.get('receipts_total'))
       });
       this.set({
         view: new FilingView({
@@ -54,6 +51,21 @@
       if (!this.get('initialLoad')) {
         return this.alert();
       }
+    };
+    Filing.prototype.format_amount = function(n) {
+      var regex, x, x1, x2;
+      if (!n) {
+        return;
+      }
+      n += '';
+      x = n.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      regex = /(\d+)(\d{3})/;
+      while (regex.test(x1)) {
+        x1 = x1.replace(regex, '$1' + ',' + '$2');
+      }
+      return x1 + x2;
     };
     Filing.prototype.alert = function() {
       var amendment, icon, popup;

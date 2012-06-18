@@ -103,9 +103,8 @@
                   <th class="table-form">Form</th>
                   <th class="table-amendment"></th>
                   <th class="table-title">Title</th>
-                  <th class="table-from">From</th>
-                  <th class="table-to">To</th>
-                  <th class="table-to">Raised</th>
+                  <th class="table-to">Through</th>
+                  <th class="table-raised">Raised</th>
               </tr>
           </thead>
           <tbody data-spy="scroll">
@@ -129,9 +128,12 @@
       <% } %>
       </td>
       <td><a href="<%= fec_uri %>"><%= report_title %></a></td>
-      <td><%= date_coverage_from %></td>
       <td><%= date_coverage_to %></td>
-      <td><%= raised %></td>
+      <td>
+        <% if (raised) { %>
+        $<%= raised %>
+        <% } %>
+      </td>
     </script>
 
     <script type="text/html" id="mobile-filing-row-template">
@@ -145,12 +147,16 @@
                   <i title="This is an amendment" class="icon-pencil"></i>
               <% } %>
             </div>
+            <% if (report_period) { %>
             <div class="row">
               <strong>Title:</strong> <a href="<%= fec_uri %>"><%= report_period %></a>
             </div>
+            <% } %>
+            <% if (raised) { %>
             <div class="row">
-              <strong>Raised:</strong> <%= raised %>
+              <strong>Raised:</strong> $<%= raised %>
             </div>
+            <% } %>
           </div>
       </td>
     </script>

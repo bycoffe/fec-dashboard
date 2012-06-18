@@ -25,11 +25,22 @@ class Filing extends Backbone.Model
   initialize: ->
     @set committee_id: @get('fec_committee_id')
     @set full_committee_type: committeeTypes[@get('committee_type')]
-    @set raised: @get('receipts_total')
-    @set report_period: @get('report_period')
+    @set raised: @format_amount(@get('receipts_total'))
     @set view: new FilingView(model: @)
     unless @get('initialLoad')
       @alert()
+
+  format_amount: (n) ->
+    return unless n
+    n += ''
+    x = n.split('.')
+    x1 = x[0]
+    x2 = if x.length > 1 then '.' + x[1] else ''
+    regex = /(\d+)(\d{3})/
+    while regex.test(x1)
+        x1 = x1.replace(regex, '$1' + ',' + '$2')
+    x1 + x2
+
 
   alert: ->
     return unless appSettings.get('showNotifications')
