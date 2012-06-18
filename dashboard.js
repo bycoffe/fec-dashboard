@@ -41,6 +41,12 @@
         full_committee_type: committeeTypes[this.get('committee_type')]
       });
       this.set({
+        raised: this.get('receipts_total')
+      });
+      this.set({
+        report_period: this.get('report_period')
+      });
+      this.set({
         view: new FilingView({
           model: this
         })
