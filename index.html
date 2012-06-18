@@ -103,7 +103,7 @@
                   <th class="table-form">Form</th>
                   <th class="table-amendment"></th>
                   <th class="table-title">Title</th>
-                  <th class="table-to">Through</th>
+                  <th class="table-to">Date Through</th>
                   <th class="table-raised">Raised</th>
               </tr>
           </thead>
@@ -157,6 +157,9 @@
               <strong>Raised:</strong> $<%= raised %>
             </div>
             <% } %>
+            <div class="row">
+              <strong>Date through:</strong> <%= date_coverage_to %>
+            </div>
           </div>
       </td>
     </script>
