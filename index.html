@@ -7,6 +7,7 @@
     <title>electronic filings dashboard</title>
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="assets/datepicker/css/datepicker.css" rel="stylesheet">
     <link href="dashboard.css" rel="stylesheet">
   </head>
 
@@ -86,7 +87,13 @@
           <div class="span2">
             <button class="btn" type="button" id="update-now"><i class="icon-refresh"></i> Update now</button>
           </div>
-          <div class="span2 offset8 alignRight">
+          <div class="span3">
+            <div class="input-append date" id="datepicker" data-date="" data-date-format="dd-mm-yyyy">
+              <input id="datepicker-input" size="6" style="width:120px;" type="text" value="" readonly>
+              <span class="add-on"><i class="icon-th"></i></span>
+            </div>
+          </div>
+          <div class="span2 offset5 alignRight">
             <i class="icon-pencil"></i> Amendment
           </div>
         </div>
@@ -168,6 +175,7 @@
     <script type="text/javascript" src="assets/js/underscore-min.js"></script>
     <script type="text/javascript" src="assets/js/backbone-min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="assets/datepicker/js/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="dashboard.js"></script>
 
   </body>

@@ -65,12 +65,20 @@ class Filings extends Backbone.Collection
 
   model: Filing
 
-  getFilings: (initialLoad=false) ->
+  getFilings: (initialLoad=false, date=null) ->
     return unless appSettings.get('apikey').length > 0
+
+    if date
+      month = date.getMonth()
+      if month < 12 then month += 1 else month = 1
+      url = "http://api.nytimes.com/svc/elections/us/v3/finances/2012/filings/#{date.getFullYear()}/#{month}/#{date.getDate()}.json"
+    else
+      url = 'http://api.nytimes.com/svc/elections/us/v3/finances/2012/filings.json'
+
     newFilings = false
     $.ajax
       dataType: 'jsonp'
-      url: 'http://api.nytimes.com/svc/elections/us/v3/finances/2012/filings.json'
+      url: url
       data:
         'api-key': $("#apikey").val()
       success: (data) =>
@@ -197,3 +205,20 @@ $(document).ready ->
 
   $(window).bind 'focus', ->
     $("title").html title
+
+  today = new Date()
+  month = today.getMonth()
+  if month < 12 then month += 1 else month = 1
+  $("#datepicker-input").val "#{today.getFullYear()}-#{month}-#{today.getDate()}"
+
+  $("#datepicker").datepicker(
+    format: 'yyyy-mm-dd'
+    endDate: new Date()
+    autoclose: true
+  ).on('changeDate', (ev) ->
+    date = new Date(ev.date.valueOf())
+    date.setDate date.getDate()+1
+    $("#filings tbody tr").remove()
+    filings.reset()
+    filings.getFilings(true, date)
+  )
