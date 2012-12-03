@@ -44,6 +44,9 @@
         raised: this.format_amount(this.get('receipts_total'))
       });
       this.set({
+        spent: this.format_amount(this.get('disbursements_total'))
+      });
+      this.set({
         view: new FilingView({
           model: this
         })

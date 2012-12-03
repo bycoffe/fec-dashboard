@@ -112,6 +112,7 @@
                   <th class="table-title">Title</th>
                   <th class="table-to">Date Through</th>
                   <th class="table-raised">Raised</th>
+                  <th class="table-spent">Spent</th>
               </tr>
           </thead>
           <tbody data-spy="scroll">
@@ -141,6 +142,11 @@
         $<%= raised %>
         <% } %>
       </td>
+      <td>
+        <% if (spent) { %>
+        $<%= spent %>
+        <% } %>
+      </td>
     </script>
 
     <script type="text/html" id="mobile-filing-row-template">
@@ -162,6 +168,11 @@
             <% if (raised) { %>
             <div class="row">
               <strong>Raised:</strong> $<%= raised %>
+            </div>
+            <% } %>
+            <% if (spent) { %>
+            <div class="row">
+              <strong>Spent:</strong> $<%= raised %>
             </div>
             <% } %>
             <div class="row">

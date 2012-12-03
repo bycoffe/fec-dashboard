@@ -26,6 +26,7 @@ class Filing extends Backbone.Model
     @set committee_id: @get('fec_committee_id')
     @set full_committee_type: committeeTypes[@get('committee_type')]
     @set raised: @format_amount(@get('receipts_total'))
+    @set spent: @format_amount(@get('disbursements_total'))
     @set view: new FilingView(model: @)
     unless @get('initialLoad')
       @alert()
