@@ -1,5 +1,5 @@
 (function() {
-  var Filing, FilingView, Filings, SaveSettingsView, Settings, appSettings, committeeTypes, filings, title, windowFocused;
+  var Filing, FilingView, Filings, SaveSettingsView, Settings, appSettings, committeeTypes, filings, requestPermission, title, windowFocused;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -27,6 +27,9 @@
     'X': 'Party Nonqualified',
     'Y': 'Party Qualified',
     'Z': 'National Party Nonfederal Account'
+  };
+  requestPermission = function(callback) {
+    return window.webkitNotifications.requestPermission(callback);
   };
   Filing = (function() {
     __extends(Filing, Backbone.Model);
@@ -79,7 +82,7 @@
         console.log('No support for desktop notifications');
       }
       if (window.webkitNotifications.checkPermission() > 0) {
-        this.requestPermission(this.alert);
+        requestPermission(this.alert);
       }
       icon = 'http://query.nictusa.com/images/fec1.gif';
       amendment = '';
@@ -88,9 +91,6 @@
       }
       popup = window.webkitNotifications.createNotification(icon, this.get('committee_name'), "" + (this.get('report_title')) + amendment);
       return popup.show();
-    };
-    Filing.prototype.requestPermission = function(callback) {
-      return window.webkitNotifications.requestPermission(callback);
     };
     return Filing;
   })();
@@ -246,6 +246,9 @@
     };
     SaveSettingsView.prototype.handleClick = function(e) {
       e.preventDefault();
+      if ($("#show-notifications").attr('checked', 'checked') && window.webkitNotifications.checkPermission() > 0) {
+        requestPermission(function() {});
+      }
       return $("#settings").modal('hide');
     };
     return SaveSettingsView;

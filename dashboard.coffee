@@ -20,6 +20,10 @@ committeeTypes =
   'Z': 'National Party Nonfederal Account'
 
 
+requestPermission = (callback) ->
+  window.webkitNotifications.requestPermission callback
+
+
 class Filing extends Backbone.Model
 
   initialize: ->
@@ -49,7 +53,7 @@ class Filing extends Backbone.Model
       console.log 'No support for desktop notifications'
 
     if window.webkitNotifications.checkPermission() > 0
-      @requestPermission(@alert)
+      requestPermission(@alert)
 
     icon = 'http://query.nictusa.com/images/fec1.gif'
     amendment = ''
@@ -57,9 +61,6 @@ class Filing extends Backbone.Model
       amendment = ' [amendment] '
     popup = window.webkitNotifications.createNotification icon, @get('committee_name'), "#{@get('report_title')}#{amendment}"
     popup.show()
-
-  requestPermission: (callback) ->
-    window.webkitNotifications.requestPermission callback
 
 
 class Filings extends Backbone.Collection
@@ -168,6 +169,8 @@ class SaveSettingsView extends Backbone.View
 
   handleClick: (e) ->
     e.preventDefault()
+    if $("#show-notifications").attr('checked', 'checked') and window.webkitNotifications.checkPermission() > 0
+      requestPermission(->)
     $("#settings").modal('hide')
 
 
